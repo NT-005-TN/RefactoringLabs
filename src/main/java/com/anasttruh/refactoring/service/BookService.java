@@ -17,11 +17,22 @@ public class BookService {
     private final List<Book> storage = new CopyOnWriteArrayList<>();
     private final AtomicLong idCounter = new AtomicLong(1);
 
+    /**
+     * Публичный метод для инициализации тестовых данных.
+     * Вызывается из @PostConstruct и из тестов.
+     */
     @PostConstruct
     public void init() {
-        storage.add(new Book(idCounter.getAndIncrement(), "1984", "George Orwell", 1949, "978-0451524935"));
-        storage.add(new Book(idCounter.getAndIncrement(), "Clean Code", "Robert C. Martin", 2008, "978-0132350884"));
-        System.out.println("🗄️ DB INITED WITH HARDCODED BOOKS");
+        initTestData();
+    }
+
+    // Вынесенный метод для повторного использования в тестах
+    public void initTestData() {
+        if (storage.isEmpty()) { // Защита от дублирования при повторных вызовах
+            storage.add(new Book(idCounter.getAndIncrement(), "1984", "George Orwell", 1949, "978-0451524935"));
+            storage.add(new Book(idCounter.getAndIncrement(), "Clean Code", "Robert C. Martin", 2008, "978-0132350884"));
+            System.out.println("🗄️ DB INITED WITH HARDCODED BOOKS");
+        }
     }
 
     /**
@@ -71,4 +82,5 @@ public class BookService {
         storage.add(newBook);
         return newBook;
     }
+
 }

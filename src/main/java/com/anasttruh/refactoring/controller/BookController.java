@@ -52,9 +52,6 @@ public class BookController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
                     .body(AddBookResponse.failure("IllegalArgumentException", e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(AddBookResponse.failure("Exception", e.getMessage()));
         }
     }
 }
